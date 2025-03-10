@@ -1,4 +1,4 @@
-mport requests
+import requests
 
 # Düzgün dəyişən adı ilə API açarının təyini
 api_key = '932c5778-16aa-4174-a35b-811f19e328dc'
