@@ -1,6 +1,6 @@
 import requests
 
-# Düzgün dəyişən adı ilə API açarının təyini
+# API açarının təyini
 api_key = '932c5778-16aa-4174-a35b-811f19e328dc'
 url = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
 
@@ -14,6 +14,10 @@ def update_prices(product_offers):
     if response.status_code == 200:
         print("Prices updated successfully")
         print(response.json())
+    elif response.status_code == 403:
+        print(f"Failed to update prices: {response.status_code}")
+        print(response.json())
+        print("Check if your IP address is allowed and your API key is correct.")
     else:
         print(f"Failed to update prices: {response.status_code}")
         try:
@@ -32,7 +36,7 @@ def main():
                         "quantity": 1,
                         "maximum_installment_month": 18,
                         "installment_enabled": True,
-                        "gtin": "194850877209",
+                        "gtin": "56498423156",
                         "discount_effective_start_date": "12.12.2024 0:00:00",
                         "discount_effective_end_date": "12.12.2024 23:59:59"
                     }
