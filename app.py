@@ -1,7 +1,7 @@
 import requests
 
 # Umico API endpoint and API key
-api_endpoint = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
+X-api_endpoint = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
 X-api_key = '932c5778-16aa-4174-a35b-811f19e328dc'
 
 # Function to get competitor prices (dummy function, replace with actual logic)
