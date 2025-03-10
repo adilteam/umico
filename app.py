@@ -1,7 +1,7 @@
 import requests
 
 # API açarının təyini
-x_api_key = 'bc7cc0c7-d17c-420d-b838-ce63daaa6b7f'
+api_key = 'bc7cc0c7-d17c-420d-b838-ce63daaa6b7f', '932c5778-16aa-4174-a35b-811f19e328dc'
 url = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
 
 def update_prices(product_offers):
