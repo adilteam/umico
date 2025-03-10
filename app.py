@@ -1,61 +1,46 @@
-import requests
+mport requests
 
-# Umico API endpoint and API key
-api_endpoint = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
+# Düzgün dəyişən adı ilə API açarının təyini
 api_key = '932c5778-16aa-4174-a35b-811f19e328dc'
+url = 'https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection'
 
-# Function to get competitor prices (dummy function, replace with actual logic)
-def get_competitor_price(gtin):
-    # Use the actual logic to get competitor prices
-    # This is a dummy implementation
-    competitor_prices = {
-        "56498423156": 99
-    }
-    return competitor_prices.get(gtin, 0)
-
-# Function to update product prices
 def update_prices(product_offers):
     headers = {
-        'api_key': api_key,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-api-key': api_key
     }
-    
-    for offer in product_offers:
-        gtin = offer['gtin']
-        old_price = offer['old_price']
-        retail_price = offer['retail_price']
-        
-        # Get competitor price
-        competitor_price = get_competitor_price(gtin)
-        
-        if competitor_price > 0:
-            # Set new price 1 qəpik lower than competitor price
-            new_price = competitor_price - 0.01
-            offer['retail_price'] = new_price
+    response = requests.post(url, headers=headers, json=product_offers)
 
-    payload = {
-        "product_offers": {
-            "payload": product_offers
-        }
-    }
-    
-    response = requests.post(api_endpoint, headers=headers, json=payload)
-    
     if response.status_code == 200:
         print("Prices updated successfully")
+        print(response.json())
     else:
         print(f"Failed to update prices: {response.status_code}")
-        print(response.json())
+        try:
+            print(response.json())
+        except requests.exceptions.JSONDecodeError:
+            print("No JSON response received")
 
-# Example product offers
-product_offers = [
-    {
-        "gtin": "56498423156",
-        "old_price": 120,
-        "retail_price": 100,
-        "qty": 1
+def main():
+    product_offers = {
+        "product_offers": [
+            {
+                "payload": [
+                    {
+                        "retail_price": 1854,
+                        "old_price": 2846,
+                        "quantity": 1,
+                        "maximum_installment_month": 18,
+                        "installment_enabled": True,
+                        "gtin": "194850877209",
+                        "discount_effective_start_date": "12.12.2024 0:00:00",
+                        "discount_effective_end_date": "12.12.2024 23:59:59"
+                    }
+                ]
+            }
+        ]
     }
-]
+    update_prices(product_offers)
 
-# Update prices
-update_prices(product_offers)
+if __name__ == "__main__":
+    main()
