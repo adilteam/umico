@@ -1,0 +1,11 @@
+# Flask framework for creating the dashboard web application
+Flask==2.0.1
+
+# Requests library for making HTTP requests to the API
+requests==2.25.1
+
+# Flask-Cors for handling Cross-Origin Resource Sharing (CORS)
+Flask-Cors==3.0.10
+
+# Gunicorn for deploying the Flask application
+gunicorn==20.1.0
