@@ -3,19 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <title>Umico.az Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Dashboard</h1>
-    </header>
-    <main>
-        <section id="widgets">
-            <!-- Məlumat widget-ları burada yerləşdiriləcək -->
-        </section>
-    </main>
-    <script src="api.js"></script>
-    <script src="dashboard.js"></script>
+    <div class="container">
+        <h1>Umico.az Məhsul Siyahısı</h1>
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <h3>{{ product.name }}</h3>
+                <p>Qiymət: {{ product.price }} AZN</p>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="button" id="startButton">Start</button>
+        <p id="statusMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById('startButton').addEventListener('click', function() {
+            fetch('/update_prices', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('statusMessage').innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById('statusMessage').innerText = 'Xəta baş verdi!';
+            });
+        });
+    </script>
 </body>
 </html>
