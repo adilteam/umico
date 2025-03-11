@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 # Загружаем переменные окружения
 load_dotenv()
 
-# Получаем API-ключ
-API_KEY = os.getenv("932c5778-16aa-4174-a35b-811f19e328dc")
+# Получаем API-ключ по имени переменной
+API_KEY = os.getenv("API_KEY")  # Должно быть имя переменной, а не сам ключ
 if not API_KEY:
     raise ValueError("❌ API_KEY не найден в .env")
 
