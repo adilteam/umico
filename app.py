@@ -1,6 +1,7 @@
 import requests
 import os
 from dotenv import load_dotenv
+import json
 
 # Загружаем переменные окружения
 load_dotenv()
@@ -14,7 +15,7 @@ if not API_KEY:
 
 API_URL = "https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection"
 
-def update_prices(product_offers):
+def update_prices(product_offers_data):
     headers = {
         "x-api-key": API_KEY,
         "Content-Type": "application/json"
@@ -22,36 +23,46 @@ def update_prices(product_offers):
 
     try:
         # Отправляем POST-запрос
-        response = requests.post(API_URL, headers=headers, json=product_offers)
-        response.raise_for_status()  # Если ошибка на стороне сервера или сети
-
-        # Выводим подробную информацию о ответе
+        print(f"Отправка данных: {json.dumps(product_offers_data, indent=2)}")
+        response = requests.post(API_URL, headers=headers, json=product_offers_data)
+        
+        # Вывод информации о ответе
         print("Response Status Code:", response.status_code)
-        print("Response Headers:", response.headers)
+        print("Response Headers:", dict(response.headers))
         print("Response Text:", response.text)
+        
+        # Проверка на ошибку
+        response.raise_for_status()
 
         # Если запрос успешен, печатаем JSON-ответ
         print("✅ Prices updated successfully:", response.json())
+        return response.json()
     except requests.exceptions.RequestException as e:
-        print("❌ An error occurred:", e)
+        print(f"❌ An error occurred: {e}")
+        if hasattr(e, 'response') and e.response is not None:
+            print(f"Error details: {e.response.text}")
+        return None
 
 def main():
-    product_offers = {
-        "payload": [  # Убрал лишнюю обертку "product_offers"
-            {
-                "gtin": "56498423156",
-                "old_price": 120,
-                "retail_price": 100,
-                "qty": 1,
-                "installment_enabled": "true",  # Заменил на строку "true"
-                "max_installment_months": 18,  # Поменял на max_installment_months
-                "discount_effective_start_date": "2024-12-12 00:00:00",
-                "discount_effective_end_date": "2024-12-12 23:59:59"
-            }
-        ]
+    # Структура данных согласно документации
+    product_offers_data = {
+        "product_offers": {
+            "payload": [
+                {
+                    "gtin": "56498423156",
+                    "retail_price": 100.0,
+                    "old_price": 120.0,
+                    "qty": 1,
+                    "installment_enabled": "true",  # Как строка, согласно документации
+                    "max_installment_months": 18,  # Правильное название поля из документации
+                    "discount_effective_start_date": "12.12.2024 0:00:00",  # Формат даты из документации
+                    "discount_effective_end_date": "12.12.2024 23:59:59"  # Формат даты из документации
+                }
+            ]
+        }
     }
 
-    update_prices(product_offers)
+    update_prices(product_offers_data)
 
 if __name__ == "__main__":
     main()
