@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Umico API bilgileri
-API_KEY = os.getenv("UMICO_API_KEY", "932c5778-16aa-4174-a35b-811f19e328dc")
+API_KEY = os.getenv("API_KEY", "932c5778-16aa-4174-a35b-811f19e328dc")
 API_URL = "https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection"
 
 def update_prices(product_offers):
