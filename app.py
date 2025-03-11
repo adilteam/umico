@@ -43,8 +43,8 @@ def main():
                 "old_price": 120,
                 "retail_price": 100,
                 "qty": 1,
-                "installment_enabled": True,
-                "max_installment": 18,
+                "installment_enabled": "true",  # Заменил на строку "true"
+                "max_installment_months": 18,  # Поменял на max_installment_months
                 "discount_effective_start_date": "2024-12-12 00:00:00",
                 "discount_effective_end_date": "2024-12-12 23:59:59"
             }
