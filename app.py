@@ -7,6 +7,8 @@ load_dotenv()
 
 # Получаем API-ключ по имени переменной
 API_KEY = os.getenv("API_KEY")  # Должно быть имя переменной, а не сам ключ
+
+# Проверка, загружен ли API_KEY
 if not API_KEY:
     raise ValueError("❌ API_KEY не найден в .env")
 
@@ -19,8 +21,16 @@ def update_prices(product_offers):
     }
 
     try:
+        # Отправляем POST-запрос
         response = requests.post(API_URL, headers=headers, json=product_offers)
-        response.raise_for_status()  
+        response.raise_for_status()  # Если ошибка на стороне сервера или сети
+
+        # Выводим подробную информацию о ответе
+        print("Response Status Code:", response.status_code)
+        print("Response Headers:", response.headers)
+        print("Response Text:", response.text)
+
+        # Если запрос успешен, печатаем JSON-ответ
         print("✅ Prices updated successfully:", response.json())
     except requests.exceptions.RequestException as e:
         print("❌ An error occurred:", e)
