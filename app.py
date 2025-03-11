@@ -8,4 +8,4 @@ if load_dotenv():
 else:
     print("❌ .env file not found")
 
-print("🔑 API Key:", os.getenv("UMICO_API_KEY"))
+print("🔑 API Key:", os.getenv("api_key"))
