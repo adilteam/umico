@@ -8,7 +8,7 @@ load_dotenv()
 # Получаем API-ключ
 API_KEY = os.getenv("932c5778-16aa-4174-a35b-811f19e328dc")
 if not API_KEY:
-    raise ValueError("❌ UMICO_API_KEY не найден в .env")
+    raise ValueError("❌ API_KEY не найден в .env")
 
 API_URL = "https://catalog-admin-web-stage.umico.az/api/v1/product_offers/upsert_collection"
 
